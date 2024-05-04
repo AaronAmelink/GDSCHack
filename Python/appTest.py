@@ -1,26 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 
-
-"""TO DO
-- pages
-- load button
-    - if nothing is chosen, have a default setting
-
-- organize 
-- set image
-"""
-
-
-
-
-
 #base set up 
 root = tk.Tk()
 root.geometry("500x400")
 root.title("ArtVR")
-
-
 
 def home_page():
     home_frame = tk.Frame(main_frame) #packs it into the mainframe
@@ -29,12 +13,8 @@ def home_page():
     home_frame.pack(pady = 10)
 
 def start_page():
-    """
-    start_frame = tk.Frame(main_frame)
-    lb = tk.Label(start_frame, text = 'start!')
-    lb.pack()
-    start_frame.pack(pady = 10)"""
-
+    filterLabel =  tk.Label(main_frame, text = 'Display Filters', font = ('Bold',10))
+    filterLabel.pack()
     #dropdown boxes
         #classification
     classification_list  = [
@@ -52,6 +32,7 @@ def start_page():
     class_value.set("Classification")
 
     drop_Menu_Class = tk.OptionMenu(main_frame, class_value, *classification_list)
+    drop_Menu_Class.config(width = 30)
     drop_Menu_Class.pack()
 
         #classification
@@ -86,6 +67,7 @@ def start_page():
     national_value.set("Nationality")
 
     drop_Menu_Nat = tk.OptionMenu(main_frame, national_value, *Nationality_list)
+    drop_Menu_Nat.config(width = 30)
     drop_Menu_Nat.pack()
 
         #classified editions
@@ -101,6 +83,7 @@ def start_page():
     edition_value.set("Grouped Editions")
 
     drop_menu_edit = tk.OptionMenu(main_frame,edition_value, *edition_List)
+    drop_menu_edit.config(width = 30)
     drop_menu_edit.pack()
 
     #number of pictures to display (Radio Buttons)
@@ -118,12 +101,9 @@ def start_page():
     pageNum = tk.Entry(main_frame, textvariable =num)
     pageNum.pack()
 
-
     #load button
     load = tk.Button(main_frame, text = 'START')
     load.pack()
-
-    
 
 
 def hide_indicators():
@@ -165,7 +145,7 @@ option_frame.configure(width=100, height =400)
 
 #main white area
 main_frame = tk.Frame(root, highlightbackground = 'black',highlightthickness = 2)
-main_frame.pack(side=tk.LEFT)
+main_frame.pack(side=tk.TOP, fill = tk.BOTH, expand = True)
 main_frame.configure(height= 400,width = 400)
 
 root.mainloop()
