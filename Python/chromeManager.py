@@ -16,6 +16,7 @@ class chromeManager:
         prefs = {'download.default_directory' : path+"\\GDSCHacksUnity\\Assets\\Art\\pictures\\"}
         self.options.add_experimental_option('prefs', prefs)
         self.options.add_argument("--window-size=1920,1200")
+        self.options.add_argument("--headless")
         self.driver = webdriver.Chrome(options=self.options)
         self.actionChains = ActionChains(self.driver)
 

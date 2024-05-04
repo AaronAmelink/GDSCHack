@@ -8,10 +8,6 @@ using System.IO;
 
 public class artScript : MonoBehaviour
 {
-    public float height;
-    public float width;
-
-    public string imagePath;
 
 
     // Start is called before the first frame update
@@ -19,15 +15,21 @@ public class artScript : MonoBehaviour
     {
         // Create a texture. Texture size does not matter, since
         // LoadImage will replace with the size of the incoming image.
+         //the z is the height...not y. Data size is in cm, unit measurement is in m
+
+    }
+
+
+    public void loadData(string fileName, float widthCM, float heightCM)
+    {
         Texture2D tex = new Texture2D(2, 2);
-        byte[] imageData = File.ReadAllBytes(imagePath);
+        byte[] imageData = File.ReadAllBytes(Application.dataPath + "/Art/Pictures/" + fileName);
         ImageConversion.LoadImage(tex, imageData);
         GetComponent<Renderer>().material.mainTexture = tex;
 
-        float accHeight = (float)(height*0.1);
-        float accWidth = (float)(width*0.1);
-        transform.localScale = new Vector3(accWidth, 1, accHeight); //the z is the height...not y. Data size is in cm, unit measurement is in m
-
+        float accHeight = (float)(heightCM * 0.01);
+        float accWidth = (float)(widthCM * 0.01);
+        transform.localScale = new Vector3(accWidth, 1, accHeight);
     }
 
     // Update is called once per frame

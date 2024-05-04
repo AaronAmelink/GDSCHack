@@ -61,7 +61,7 @@ class artManager:
             created = self.CM.getSubElementsByClass(artRef[i], "created")[0].text
             download = self.CM.getSubElementsByClass(artRef[i], "tool-download")[0]
             self.CM.clickAtElement(download)
-            downloadName = self.CM.getSubElementsByClass(artRef[i], "icon-helper")[1].get_attribute('href').split("filename=")[1]
+            downloadName = self.CM.getSubElementsByClass(artRef[i], "icon-helper")[1].get_attribute('href').split("filename=")[1].replace("%2C", "")
             newArt = art(0,0, artist, created, title, downloadName)
             self.art.append(newArt)
         data = {"art" : []}
@@ -108,11 +108,3 @@ class artManager:
         time.sleep(5)
 
 
-am = artManager()
-am.checkFilterMenuOn()
-time.sleep(3)
-am.getFilterTypes()
-am.toggleFilter("Images_online")
-time.sleep(10)
-am.getArtSizingOn()
-time.sleep(5)
