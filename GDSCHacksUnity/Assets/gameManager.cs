@@ -15,7 +15,7 @@ public class gameManager : MonoBehaviour
         {
             startPosition += pieces[i].width*0.01f * 0.5f;
             GameObject newPiece = Instantiate(artPrefab);
-            newPiece.GetComponent<artScript>().loadData(pieces[i].download, pieces[i].width, pieces[i].height);
+            newPiece.GetComponent<artScript>().loadData(pieces[i].download, pieces[i].width, pieces[i].height, pieces[i].title, pieces[i].artist, pieces[i].created);
             newPiece.transform.position = new Vector3(startPosition,pieces[i].height *0.01f *0.5f + 0.5f, -5);
             startPosition += pieces[i].width * 0.01f * 0.5f;
         }
