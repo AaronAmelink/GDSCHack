@@ -1,10 +1,26 @@
 import tkinter as tk
 from tkinter import ttk
 
-root = tk.Tk()
 
+"""TO DO
+- pages
+- load button
+    - if nothing is chosen, have a default setting
+
+- organize 
+- set image
+"""
+
+
+
+
+
+#base set up 
+root = tk.Tk()
 root.geometry("500x400")
 root.title("ArtVR")
+
+
 
 def home_page():
     home_frame = tk.Frame(main_frame) #packs it into the mainframe
@@ -12,17 +28,12 @@ def home_page():
     lb.pack()
     home_frame.pack(pady = 10)
 
-def delete_pages():
-    for frame in main_frame.winfo_children():
-        frame.destroy()
-
 def start_page():
-
+    """
     start_frame = tk.Frame(main_frame)
     lb = tk.Label(start_frame, text = 'start!')
     lb.pack()
-    start_frame.pack(pady = 10)
-
+    start_frame.pack(pady = 10)"""
 
     #dropdown boxes
         #classification
@@ -37,10 +48,10 @@ def start_page():
                     "Technical material (37)",
                     "Volume (439)"]
     
-    class_value = tk.StringVar(root)
+    class_value = tk.StringVar(main_frame)
     class_value.set("Classification")
 
-    drop_Menu_Class = tk.OptionMenu(root, class_value, *classification_list)
+    drop_Menu_Class = tk.OptionMenu(main_frame, class_value, *classification_list)
     drop_Menu_Class.pack()
 
         #classification
@@ -71,10 +82,10 @@ def start_page():
             "Swedish (108)",
             "Swiss (518)"]
     
-    national_value = tk.StringVar(root)
+    national_value = tk.StringVar(main_frame)
     national_value.set("Nationality")
 
-    drop_Menu_Nat = tk.OptionMenu(root, national_value, *Nationality_list)
+    drop_Menu_Nat = tk.OptionMenu(main_frame, national_value, *Nationality_list)
     drop_Menu_Nat.pack()
 
         #classified editions
@@ -86,23 +97,42 @@ def start_page():
         "Italian Paintings 16th Century (35)"
     ]
 
-    edition_value = tk.StringVar(root)
+    edition_value = tk.StringVar(main_frame)
     edition_value.set("Grouped Editions")
 
-    drop_menu_edit = tk.OptionMenu(root,edition_value, *edition_List)
+    drop_menu_edit = tk.OptionMenu(main_frame,edition_value, *edition_List)
     drop_menu_edit.pack()
 
-    #number of pictures to display
+    #number of pictures to display (Radio Buttons)
     r = tk.IntVar()
    
-    tk.Radiobutton(root, text = "30", variable=r, value = 1).pack()
-    tk.Radiobutton(root, text = "60", variable=r, value = 2).pack()
-    tk.Radiobutton(root, text = "90", variable=r, value = 3).pack()
+    tk.Radiobutton(main_frame, text = "30", variable=r, value = 1).pack()
+    tk.Radiobutton(main_frame, text = "60", variable=r, value = 2).pack()
+    tk.Radiobutton(main_frame, text = "90", variable=r, value = 3).pack()
+
+    #page number
+    pageNumLabel = tk.Label(main_frame, text = 'Enter page number of archive (1-100)')
+    pageNumLabel.pack()
+
+    num = tk.StringVar(main_frame)
+    pageNum = tk.Entry(main_frame, textvariable =num)
+    pageNum.pack()
+
+
+    #load button
+    load = tk.Button(main_frame, text = 'START')
+    load.pack()
+
+    
+
 
 def hide_indicators():
     home_indicate.config(bg = '#c3c3c3')
     start_indicate.config(bg = '#c3c3c3')
 
+def delete_pages():
+    for frame in main_frame.winfo_children():
+        frame.destroy()
 
 def indicate(lb, page):
     hide_indicators()
@@ -110,8 +140,8 @@ def indicate(lb, page):
     delete_pages()
     page()
 
-#########the basic structure of this app follows a youtube video - rmbmr to change it so its not plagirism
 
+#########the basic structure of this app follows a youtube video - rmbmr to change it so its not plagirism
 
 #gray bar on the left
 option_frame = tk.Frame(root, bg='#c3c3c3')
