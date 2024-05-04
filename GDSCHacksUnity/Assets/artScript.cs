@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 using System.IO;
+using TMPro;
 
 public class artScript : MonoBehaviour
 {
@@ -20,18 +21,29 @@ public class artScript : MonoBehaviour
     }
     public float accHeight;
     public float accWidth;
+    public GameObject plane;
+    public TextMeshPro title;
+    public TextMeshPro artist;
+    public TextMeshPro period;
+    public GameObject text;
 
 
-    public void loadData(string fileName, float widthCM, float heightCM)
+    public void loadData(string fileName, float widthCM, float heightCM, string t, string a, string p)
     {
         Texture2D tex = new Texture2D(2, 2);
         byte[] imageData = File.ReadAllBytes(Application.dataPath + "/Art/Pictures/" + fileName);
         ImageConversion.LoadImage(tex, imageData);
-        GetComponent<Renderer>().material.mainTexture = tex;
+        plane.GetComponent<Renderer>().material.mainTexture = tex;
+        title.text = t;
+        artist.text = a;
+        period.text = p;
 
         accHeight = heightCM * 0.001f;
         accWidth = widthCM * 0.001f;
-        transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
+        plane.transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
+        text.transform.localScale = new Vector3(accWidth, accWidth, 1);
+        text.transform.localPosition = new Vector3(accWidth*10 / 2, -accHeight*10 / 2, -0.2f);
+        
     }
 
     // Update is called once per frame
