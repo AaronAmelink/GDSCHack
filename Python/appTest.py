@@ -13,8 +13,10 @@ def home_page():
     home_frame.pack(pady = 10)
 
 def start_page():
+    emptySpace = tk.Label(main_frame, text ="")
+    emptySpace.pack(pady = 3)
     filterLabel =  tk.Label(main_frame, text = 'Display Filters', font = ('Bold',10))
-    filterLabel.pack()
+    filterLabel.pack(pady = 5)
     #dropdown boxes
         #classification
     classification_list  = [
@@ -88,12 +90,18 @@ def start_page():
 
     #number of pictures to display (Radio Buttons)
     r = tk.IntVar()
+    emptySpace = tk.Label(main_frame, text ="")
+    emptySpace.pack(pady = 3)
+    numPic = tk.Label(main_frame, text = "Number of items to display")
+    numPic.pack()
    
     tk.Radiobutton(main_frame, text = "30", variable=r, value = 1).pack()
     tk.Radiobutton(main_frame, text = "60", variable=r, value = 2).pack()
     tk.Radiobutton(main_frame, text = "90", variable=r, value = 3).pack()
 
     #page number
+    emptySpace = tk.Label(main_frame, text ="")
+    emptySpace.pack(pady = 2)
     pageNumLabel = tk.Label(main_frame, text = 'Enter page number of archive (1-100)')
     pageNumLabel.pack()
 
@@ -120,8 +128,6 @@ def indicate(lb, page):
     delete_pages()
     page()
 
-
-#########the basic structure of this app follows a youtube video - rmbmr to change it so its not plagirism
 
 #gray bar on the left
 option_frame = tk.Frame(root, bg='#c3c3c3')
