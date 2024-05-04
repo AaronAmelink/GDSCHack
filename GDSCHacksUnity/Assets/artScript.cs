@@ -18,6 +18,8 @@ public class artScript : MonoBehaviour
          //the z is the height...not y. Data size is in cm, unit measurement is in m
 
     }
+    public float accHeight;
+    public float accWidth;
 
 
     public void loadData(string fileName, float widthCM, float heightCM)
@@ -27,9 +29,9 @@ public class artScript : MonoBehaviour
         ImageConversion.LoadImage(tex, imageData);
         GetComponent<Renderer>().material.mainTexture = tex;
 
-        float accHeight = (float)(heightCM * 0.01);
-        float accWidth = (float)(widthCM * 0.01);
-        transform.localScale = new Vector3(accWidth, 1, accHeight);
+        accHeight = heightCM * 0.001f;
+        accWidth = widthCM * 0.001f;
+        transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
     }
 
     // Update is called once per frame

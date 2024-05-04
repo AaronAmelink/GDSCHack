@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
 DRIVER_PATH = './chromedriver'
-
+HEADLESS = True
 
 class chromeManager:
     def __init__(self):
@@ -16,7 +16,7 @@ class chromeManager:
         prefs = {'download.default_directory' : path+"\\GDSCHacksUnity\\Assets\\Art\\pictures\\"}
         self.options.add_experimental_option('prefs', prefs)
         self.options.add_argument("--window-size=1920,1200")
-        self.options.add_argument("--headless")
+        self.options.add_argument("--headless" if HEADLESS else "")
         self.driver = webdriver.Chrome(options=self.options)
         self.actionChains = ActionChains(self.driver)
 

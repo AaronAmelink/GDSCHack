@@ -61,7 +61,12 @@ class artManager:
             created = self.CM.getSubElementsByClass(artRef[i], "created")[0].text
             download = self.CM.getSubElementsByClass(artRef[i], "tool-download")[0]
             self.CM.clickAtElement(download)
-            downloadName = self.CM.getSubElementsByClass(artRef[i], "icon-helper")[1].get_attribute('href').split("filename=")[1].replace("%2C", "")
+            downloadName = self.CM.getSubElementsByClass(artRef[i], "icon-helper")[1].get_attribute('href').split("filename=")[1]
+            index = downloadName.find("%")
+            while (index != -1):
+                newChar = bytes.fromhex(downloadName[index+1:index+3]).decode('utf-8')
+                downloadName[index:index+2] = newChar
+                index = downloadName.find("%")
             newArt = art(0,0, artist, created, title, downloadName)
             self.art.append(newArt)
         data = {"art" : []}
@@ -82,6 +87,11 @@ class artManager:
             download = self.CM.getSubElementsByClass(artRef, "tool-download")[0]
             self.CM.clickAtElement(download)
             downloadName = self.CM.getSubElementsByClass(artRef, "icon-helper")[1].get_attribute('href').split("filename=")[1]
+            index = downloadName.find("%")
+            while (index != -1):
+                newChar = bytes.fromhex(downloadName[index+1:index+3]).decode('utf-8')
+                downloadName = downloadName.replace("%"+downloadName[index+1:index+3], newChar)
+                index = downloadName.find("%")
 
             newUrl =self.CM.getSubElementsByTag(artRef, 'a')[2].get_attribute("href")
             self.CM.goToPage(newUrl)
@@ -108,3 +118,11 @@ class artManager:
         time.sleep(5)
 
 
+am = artManager()
+am.checkFilterMenuOn()
+time.sleep(3)
+am.getFilterTypes()
+am.toggleFilter("Images_online")
+time.sleep(10)
+am.getArtSizingOn()
+time.sleep(5)
