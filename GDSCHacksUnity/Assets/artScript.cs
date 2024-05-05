@@ -43,6 +43,11 @@ public class artScript : MonoBehaviour
         plane.transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
         text.transform.localScale = new Vector3(accWidth, accWidth, 1);
         text.transform.localPosition = new Vector3(accWidth*10 / 2, -accHeight*10 / 2, -0.2f);
+
+        if (text.transform.position.y < -1)
+        {
+            text.transform.localPosition = new Vector3(text.transform.localPosition.x, -0.7f, text.transform.localPosition.z);
+        }
         
     }
 
