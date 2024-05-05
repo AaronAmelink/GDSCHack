@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+from artManager import artManager
+import time
 
 #base set up 
+
 root = tk.Tk()
 root.geometry("500x400")
 root.title("ArtVR")
@@ -13,58 +16,61 @@ def home_page():
     home_frame.pack(pady = 10)
 
 def start_page():
+
+    #set up for classes
     emptySpace = tk.Label(main_frame, text ="")
     emptySpace.pack(pady = 3)
     filterLabel =  tk.Label(main_frame, text = 'Display Filters', font = ('Bold',10))
     filterLabel.pack(pady = 5)
-    #dropdown boxes
-        #classification
+    """
     classification_list  = [
-                    "Decorative art (177)",
-                    "Drawing (24700)", 
-                    "Painting (2557)", 
-                    "Photograph (1787)",
-                    "Portfolio (38)",
-                    "Print(25009)",
-                    "Sculpture (3358)",
-                    "Technical material (37)",
-                    "Volume (439)"]
+                    "Decorative art",
+                    "Drawing", 
+                    "Painting", 
+                    "Photograph",
+                    "Portfolio",
+                    "Print",
+                    "Sculpture",
+                    "Technical material",
+                    "Volume"]
     
-    class_value = tk.StringVar(main_frame)
+    global class_value
+    class_value = tk.StringVar(main_frame) #STRING THAT HOLDS THE CHOSEN CLASSIFICATION
     class_value.set("Classification")
 
     drop_Menu_Class = tk.OptionMenu(main_frame, class_value, *classification_list)
     drop_Menu_Class.config(width = 30)
-    drop_Menu_Class.pack()
+    drop_Menu_Class.pack()"""
 
-        #classification
+    #classification
     Nationality_list = [
-            "American (23980)",
-            "Austrian (229)",
-            "Belgian (43)",
-            "Bohemian (274)",
-            "British (2795)",
-            "Canadian (15)",
-            "Chinese (10)",
-            "Czech (31)",
-            "Danish (22)",
-            "Dutch (2675)",
-            "English (447)",
-            "Flemish (1446)",
-            "French (13865)",
-            "German (5259)",
-            "Italian (6385)",
-            "Japanese (4)",
-            "Mexican (5)",
-            "Netherlandish (1064)",
-            "Norwegian (4)",
-            "Other (1155)",
-            "Russian (37)",
-            "Scottish (129)",
-            "Spanish (284)",
-            "Swedish (108)",
-            "Swiss (518)"]
+            "American",
+            "Austrian",
+            "Belgian",
+            "Bohemian",
+            "British",
+            "Canadian",
+            "Chinese",
+            "Czech",
+            "Danish",
+            "Dutch",
+            "English",
+            "Flemish",
+            "French",
+            "German",
+            "Italian",
+            "Japanese",
+            "Mexican",
+            "Netherlandish",
+            "Norwegian",
+            "Other",
+            "Russian",
+            "Scottish",
+            "Spanish",
+            "Swedish",
+            "Swiss"]
     
+    global national_value
     national_value = tk.StringVar(main_frame)
     national_value.set("Nationality")
 
@@ -72,15 +78,16 @@ def start_page():
     drop_Menu_Nat.config(width = 30)
     drop_Menu_Nat.pack()
 
-        #classified editions
+    #classified editions
     edition_List = [
-        "American Paintings, 1900–1945 (19)",
-        "Dutch Paintings 17th Century (142)",
-        "French Paintings 15th–18th Centuries (22)",
-        "Italian Paintings 13th and 14th Centuries (65)",
-        "Italian Paintings 16th Century (35)"
+        "American Paintings, 1900-1945",
+        "Dutch Paintings 17th Century",
+        "French Paintings 15th-18th Centuries",
+        "Italian Paintings 13th and 14th Centuries",
+        "Italian Paintings 16th Century"
     ]
 
+    global edition_value
     edition_value = tk.StringVar(main_frame)
     edition_value.set("Grouped Editions")
 
@@ -88,6 +95,7 @@ def start_page():
     drop_menu_edit.config(width = 30)
     drop_menu_edit.pack()
 
+ 
     #number of pictures to display (Radio Buttons)
     r = tk.IntVar()
     emptySpace = tk.Label(main_frame, text ="")
@@ -110,7 +118,7 @@ def start_page():
     pageNum.pack()
 
     #load button
-    load = tk.Button(main_frame, text = 'START')
+    load = tk.Button(main_frame, text = 'START', command = importPage)
     load.pack()
 
 
@@ -127,6 +135,26 @@ def indicate(lb, page):
     lb.config(bg = 'black')
     delete_pages()
     page()
+
+def importPage():
+    am = artManager()
+    am.checkFilterMenuOn()
+    time.sleep(3)
+    am.getFilterTypes()
+    am.toggleFilter("Images_online") #what is this for then
+    time.sleep(10)
+    am.getFilterTypes()
+    time.sleep(10)
+    #am.getArtSizingOff()
+    """if class_value.get() != "Classifications":
+        am.toggleFilter(class_value.get())
+        time.sleep(5)"""
+    if national_value.get() != "Nationality":
+        am.toggleFilter(national_value.get())
+        time.sleep(5)
+    if edition_value.get() != "Grouped Editions":
+        am.toggleFilter(edition_value.get())
+        time.sleep(5)
 
 
 #gray bar on the left

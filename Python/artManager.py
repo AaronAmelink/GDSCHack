@@ -8,8 +8,9 @@ import json
 import re
 amountPerPage = 30
 class artManager:
-    def __init__(self):
-        self.CM = chromeManager()
+    def __init__(self, galleryName):
+        self.galleryName = galleryName
+        self.CM = chromeManager(galleryName)
         self.filterButtonXPATH = "/html/body/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div[1]/button"
         self.filterMenuToggled = False
         self.filterTypes = dict()
@@ -23,6 +24,7 @@ class artManager:
             time.sleep(0.5)
         
     def getFilterTypes(self):
+        self.filterTypes.clear()
         elements = self.CM.getElementsOfClass("drawer-toggle")
         content = self.CM.getElementsOfClass("drawer-content")
         for i in range(len(elements)):
@@ -47,9 +49,9 @@ class artManager:
             for x in i:
                 if x.get_attribute("value") == name:
                     self.CM.clickElement(e)
-                    time.sleep(0.1)
+                    time.sleep(0.2)
                     self.CM.clickAtElement(x)
-                    time.sleep(0.1)
+                    time.sleep(0.2)
                     self.CM.clickElement(e)
                     time.sleep(0.1)
 
@@ -73,7 +75,7 @@ class artManager:
         for i in self.art:
             data["art"].append({"artist": i.artist, "width" : 0, "height" : 0, "download" : i.fileName, "created" : i.created, "title" : i.name})
         
-        with open('./../GDSCHacksUnity/Assets/Art/data.json', 'w') as f:
+        with open('./../GDSCHacksUnity/Assets/Art/'+self.galleryName +'/data.json', 'w') as f:
             json.dump(data, f)
         
 
@@ -109,7 +111,7 @@ class artManager:
         for i in self.art:
             data["art"].append({"artist": i.artist, "width" : i.width, "height" : i.height, "download" : i.fileName, "created" : i.created, "title" : i.name})
         
-        with open('./../GDSCHacksUnity/Assets/Art/data.json', 'w') as f:
+        with open('./../GDSCHacksUnity/Assets/Art/'+self.galleryName +'/data.json', 'w') as f:
             json.dump(data, f)
 
     def goNextPage(self):
@@ -118,11 +120,3 @@ class artManager:
         time.sleep(5)
 
 
-am = artManager()
-am.checkFilterMenuOn()
-time.sleep(3)
-am.getFilterTypes()
-am.toggleFilter("Images_online")
-time.sleep(10)
-am.getArtSizingOn()
-time.sleep(5)
