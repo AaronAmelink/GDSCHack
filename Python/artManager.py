@@ -45,29 +45,33 @@ class artManager:
         time.sleep(500)
 
     def toggleFilter(self, name):
+        self.getFilterTypes()
         for e, i in self.filterTypes.items():
             for x in i:
                 if x.get_attribute("value") == name:
                     self.CM.clickElement(e)
-                    time.sleep(0.2)
-                    self.CM.clickAtElement(x)
-                    time.sleep(0.2)
-                    self.CM.clickElement(e)
                     time.sleep(0.1)
+                    self.CM.clickAtElement(x)
+                    time.sleep(0.1)
+                    self.CM.clickElement(e)
+                    return
+                    
+
+        
 
     def getArtSizingOff(self):
         artRef = self.CM.getElementsOfClass("art")
         for i in range(len(artRef)):
             artist = self.CM.getSubElementsByClass(artRef[i], 'artist')[0] .text
             title = self.CM.getSubElementsByTag(artRef[i], 'a')[2] .text
-            created = self.CM.getSubElementsByClass(artRef[i], "created")[0].text
+            created = self.CM.getSubElementsByClass(artRef[i], "created")[0].text if len(self.CM.getSubElementsByClass(artRef[i], "created")) > 0 else "unknown"
             download = self.CM.getSubElementsByClass(artRef[i], "tool-download")[0]
             self.CM.clickAtElement(download)
             downloadName = self.CM.getSubElementsByClass(artRef[i], "icon-helper")[1].get_attribute('href').split("filename=")[1]
             index = downloadName.find("%")
             while (index != -1):
                 newChar = bytes.fromhex(downloadName[index+1:index+3]).decode('utf-8')
-                downloadName[index:index+2] = newChar
+                downloadName = downloadName[:index] + newChar + downloadName[index+3:]
                 index = downloadName.find("%")
             newArt = art(0,0, artist, created, title, downloadName)
             self.art.append(newArt)
@@ -85,7 +89,7 @@ class artManager:
             artRef = self.CM.getElementsOfClass("art")[i]
             artist = self.CM.getSubElementsByClass(artRef, 'artist')[0] .text
             title = self.CM.getSubElementsByTag(artRef, 'a')[2] .text
-            created = self.CM.getSubElementsByClass(artRef, "created")[0].text
+            created = self.CM.getSubElementsByClass(artRef, "created")[0].text if len(self.CM.getSubElementsByClass(artRef, "created")) > 0 else "unknown"
             download = self.CM.getSubElementsByClass(artRef, "tool-download")[0]
             self.CM.clickAtElement(download)
             downloadName = self.CM.getSubElementsByClass(artRef, "icon-helper")[1].get_attribute('href').split("filename=")[1]
@@ -107,6 +111,46 @@ class artManager:
             self.CM.driver.back()
             self.art.append(newArt)
             time.sleep(6)
+        data = {"art" : []}
+        for i in self.art:
+            data["art"].append({"artist": i.artist, "width" : i.width, "height" : i.height, "download" : i.fileName, "created" : i.created, "title" : i.name})
+        
+        with open('./../GDSCHacksUnity/Assets/Art/'+self.galleryName +'/data.json', 'w') as f:
+            json.dump(data, f)
+    
+    def getArtSizingOnFiltered(self, filter):
+        for i in range(amountPerPage):
+            artRef = self.CM.getElementsOfClass("art")[i]
+            artist = self.CM.getSubElementsByClass(artRef, 'artist')[0] .text
+            title = self.CM.getSubElementsByTag(artRef, 'a')[2] .text
+            created = self.CM.getSubElementsByClass(artRef, "created")[0].text if len(self.CM.getSubElementsByClass(artRef, "created")) > 0 else "unknown"
+            download = self.CM.getSubElementsByClass(artRef, "tool-download")[0]
+            self.CM.clickAtElement(download)
+            downloadName = self.CM.getSubElementsByClass(artRef, "icon-helper")[1].get_attribute('href').split("filename=")[1]
+            index = downloadName.find("%")
+            while (index != -1):
+                newChar = bytes.fromhex(downloadName[index+1:index+3]).decode('utf-8')
+                downloadName = downloadName.replace("%"+downloadName[index+1:index+3], newChar)
+                index = downloadName.find("%")
+
+            newUrl =self.CM.getSubElementsByTag(artRef, 'a')[2].get_attribute("href")
+            self.CM.goToPage(newUrl)
+            time.sleep(3)
+            size = self.CM.getByXPATH('/html/body/div[2]/div[1]/div[2]/div[1]/div[2]/div[1]/div/div/div[2]/div/div/div[2]/p[1]').text
+            floats = re.findall(r"[-+]?\d*\.\d+|\d+", size)
+            floats = [float(f) for f in floats[:2]]
+
+            newArt = art(floats[0],floats[1], artist, created, title, downloadName)
+
+            self.CM.driver.back()
+            self.art.append(newArt)
+            time.sleep(6)
+            self.checkFilterMenuOn()
+            time.sleep(1)
+            self.toggleFilter(filter)
+            time.sleep(0.5)
+            self.toggleFilter("Image_download_available")
+            time.sleep(0.5)
         data = {"art" : []}
         for i in self.art:
             data["art"].append({"artist": i.artist, "width" : i.width, "height" : i.height, "download" : i.fileName, "created" : i.created, "title" : i.name})

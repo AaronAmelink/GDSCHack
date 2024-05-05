@@ -1781,7 +1781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd78e69a2bc026943a77fe25a49c9a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: /Art/data.json
+  galleryName: church
   data:
     art: []
   gameManager: {fileID: 1195081046}

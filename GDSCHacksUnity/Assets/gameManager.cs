@@ -26,7 +26,7 @@ public class gameManager : MonoBehaviour
     }
 
 
-    public void recieveJsonData(List<artPiece> pieces)
+    public void recieveJsonData(List<artPiece> pieces, string galleryName)
     {
         int numberOfPaintings = pieces.Count;
         startPlatform.doorways.ForEach(doorway =>
@@ -61,7 +61,7 @@ public class gameManager : MonoBehaviour
         for (int i = 0; i < pieces.Count; i++) 
         {
             GameObject newPiece = Instantiate(artPrefab);
-            newPiece.GetComponent<artScript>().loadData(pieces[i].download, pieces[i].width, pieces[i].height, pieces[i].title, pieces[i].artist, pieces[i].created);
+            newPiece.GetComponent<artScript>().loadData(pieces[i].download, pieces[i].width, pieces[i].height, pieces[i].title, pieces[i].artist, pieces[i].created, galleryName);
             int randomLocation = Random.Range(0, openPaintingLocations.Count);
             newPiece.transform.position = openPaintingLocations[randomLocation].transform.position;
             newPiece.transform.rotation = openPaintingLocations[randomLocation].transform.rotation;

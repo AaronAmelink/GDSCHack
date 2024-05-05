@@ -28,20 +28,31 @@ public class artScript : MonoBehaviour
     public GameObject text;
 
 
-    public void loadData(string fileName, float widthCM, float heightCM, string t, string a, string p)
+    public void loadData(string fileName, float widthCM, float heightCM, string t, string a, string p, string galleryName)
     {
         Texture2D tex = new Texture2D(2, 2);
-        byte[] imageData = File.ReadAllBytes(Application.dataPath + "/Art/Pictures/" + fileName);
+        byte[] imageData = File.ReadAllBytes(Application.dataPath + "/Art/"+ galleryName + "/Pictures/" + fileName);
         ImageConversion.LoadImage(tex, imageData);
         plane.GetComponent<Renderer>().material.mainTexture = tex;
         title.text = t;
         artist.text = a;
         period.text = p;
 
-        accHeight = heightCM * 0.001f;
-        accWidth = widthCM * 0.001f;
-        plane.transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
-        text.transform.localScale = new Vector3(accWidth, accWidth, 1);
+        if (heightCM != 0)
+        {
+            accHeight = heightCM * 0.001f;
+            accWidth = widthCM * 0.001f;
+            plane.transform.localScale = new Vector3(accWidth, 0.5f, accHeight);
+            text.transform.localScale = new Vector3(accWidth, accWidth, 1);
+        }
+        else
+        {
+            accHeight = 0.1f;
+            accWidth = 0.1f;
+            plane.transform.localScale = new Vector3(plane.transform.localScale.x * 0.1f, plane.transform.localScale.y * 0.1f, plane.transform.localScale.z * 0.1f); 
+            text.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        }
+        
         text.transform.localPosition = new Vector3(accWidth*10 / 2, -accHeight*10 / 2, -0.2f);
 
         if (text.transform.position.y < -1)

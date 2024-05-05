@@ -137,24 +137,30 @@ def indicate(lb, page):
     page()
 
 def importPage():
-    am = artManager()
+    am = artManager("belgium")
     am.checkFilterMenuOn()
     time.sleep(3)
     am.getFilterTypes()
     am.toggleFilter("Images_online") #what is this for then
-    time.sleep(10)
+    time.sleep(6)
     am.getFilterTypes()
-    time.sleep(10)
-    #am.getArtSizingOff()
-    """if class_value.get() != "Classifications":
-        am.toggleFilter(class_value.get())
-        time.sleep(5)"""
+    time.sleep(0.5)
     if national_value.get() != "Nationality":
         am.toggleFilter(national_value.get())
         time.sleep(5)
+        #am.getArtSizingOnFiltered(national_value.get()) #in case you need art size + filter
+
+
     if edition_value.get() != "Grouped Editions":
         am.toggleFilter(edition_value.get())
         time.sleep(5)
+
+    am.getFilterTypes()
+
+    am.toggleFilter("Image_download_available")
+    time.sleep(0.5)
+    am.getArtSizingOff() #depends on use case. currently set for art off cause im lazy and it takes a long time
+
 
 
 #gray bar on the left

@@ -7,14 +7,14 @@ using UnityEngine;
 public class jsonReadWrite : MonoBehaviour
 {
     // Start is called before the first frame update
-    public string path = "/Art/data.json";
+    public string galleryName;
     public artHolder data;
     public gameManager gameManager;
     void loadFromJson()
     {
-        string json = File.ReadAllText(Application.dataPath + path);
+        string json = File.ReadAllText(Application.dataPath + "/Art/" + galleryName + "/data.json");
         data = JsonUtility.FromJson<artHolder>(json);
-        gameManager.recieveJsonData(data.art);
+        gameManager.recieveJsonData(data.art, galleryName);
     }
 
 
