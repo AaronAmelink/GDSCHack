@@ -9,9 +9,11 @@ root = tk.Tk()
 root.geometry("500x400")
 root.title("ArtVR")
 
+
 def home_page():
     home_frame = tk.Frame(main_frame) #packs it into the mainframe
-    lb = tk.Label(home_frame, text = 'welcome! r ya ready', font = ('Bold', 30))
+
+    lb = tk.Label(home_frame, text = 'Welcome to your Virtual Art Gallery!', font = ('Bold', 15))
     lb.pack()
     home_frame.pack(pady = 10)
 
@@ -97,15 +99,16 @@ def start_page():
 
  
     #number of pictures to display (Radio Buttons)
+    global r
     r = tk.IntVar()
     emptySpace = tk.Label(main_frame, text ="")
     emptySpace.pack(pady = 3)
     numPic = tk.Label(main_frame, text = "Number of items to display")
     numPic.pack()
    
-    tk.Radiobutton(main_frame, text = "30", variable=r, value = 1).pack()
-    tk.Radiobutton(main_frame, text = "60", variable=r, value = 2).pack()
-    tk.Radiobutton(main_frame, text = "90", variable=r, value = 3).pack()
+    tk.Radiobutton(main_frame, text = "30", variable=r, value = 30).pack()
+    tk.Radiobutton(main_frame, text = "60", variable=r, value = 60).pack()
+    tk.Radiobutton(main_frame, text = "90", variable=r, value = 90).pack()
 
     #page number
     emptySpace = tk.Label(main_frame, text ="")
@@ -113,10 +116,11 @@ def start_page():
     pageNumLabel = tk.Label(main_frame, text = 'Enter page number of archive (1-100)')
     pageNumLabel.pack()
 
+    global num
     num = tk.StringVar(main_frame)
     pageNum = tk.Entry(main_frame, textvariable =num)
     pageNum.pack()
-
+    
     #load button
     load = tk.Button(main_frame, text = 'START', command = importPage)
     load.pack()
@@ -137,7 +141,8 @@ def indicate(lb, page):
     page()
 
 def importPage():
-    am = artManager()
+        
+    am = artManager("testing")
     am.checkFilterMenuOn()
     time.sleep(3)
     am.getFilterTypes()
@@ -146,9 +151,7 @@ def importPage():
     am.getFilterTypes()
     time.sleep(10)
     #am.getArtSizingOff()
-    """if class_value.get() != "Classifications":
-        am.toggleFilter(class_value.get())
-        time.sleep(5)"""
+   
     if national_value.get() != "Nationality":
         am.toggleFilter(national_value.get())
         time.sleep(5)
@@ -156,7 +159,15 @@ def importPage():
         am.toggleFilter(edition_value.get())
         time.sleep(5)
 
+    am.changeAmountOfArt(r.get())
 
+    loop = int (num.get())
+    for x in range (loop):
+        am.goNextPage()
+        time.sleep(5)
+        
+
+    
 #gray bar on the left
 option_frame = tk.Frame(root, bg='#c3c3c3')
 
